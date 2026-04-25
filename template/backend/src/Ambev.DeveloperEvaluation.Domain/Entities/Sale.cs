@@ -20,8 +20,6 @@ public class Sale : BaseEntity
     public bool IsCancelled { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime? UpdatedAt { get; private set; }
-    public uint Version { get; set; }
-
     public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
     public IReadOnlyCollection<INotification> DomainEvents => _domainEvents.AsReadOnly();
 

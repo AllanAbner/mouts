@@ -23,7 +23,7 @@
 #### PUT /api/sales/{id}
 - Description: Update an active sale
 - Notes:
-  - Requires `version` for optimistic concurrency
+  - Does not require a version token in update requests
   - Cancelled sales cannot be updated
   - Cancelled items cannot be changed
 

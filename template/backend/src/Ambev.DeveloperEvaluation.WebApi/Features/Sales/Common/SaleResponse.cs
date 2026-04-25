@@ -11,6 +11,5 @@ public class SaleResponse
     public string BranchName { get; set; } = string.Empty;
     public decimal TotalAmount { get; set; }
     public bool IsCancelled { get; set; }
-    public uint Version { get; set; }
     public List<SaleItemResponse> Items { get; set; } = [];
 }

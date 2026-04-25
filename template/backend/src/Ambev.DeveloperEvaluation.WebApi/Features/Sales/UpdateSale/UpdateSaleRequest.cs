@@ -10,6 +10,5 @@ public class UpdateSaleRequest
     public string CustomerName { get; set; } = string.Empty;
     public Guid BranchExternalId { get; set; }
     public string BranchName { get; set; } = string.Empty;
-    public uint Version { get; set; }
     public List<SaleItemRequest> Items { get; set; } = [];
 }

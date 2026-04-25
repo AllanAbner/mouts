@@ -54,7 +54,7 @@ Implemented backend scope:
 - Sales CRUD-style flow with logical cancellation
 - Pagination and ordering for sales listing
 - PostgreSQL persistence through EF Core mappings
-- Optimistic concurrency with `Version` mapped from PostgreSQL `xmin`
+- Stable aggregate updates without optimistic concurrency in the sales flow
 - Domain events implemented as MediatR notifications with structured logging handlers
 
 Main endpoints:

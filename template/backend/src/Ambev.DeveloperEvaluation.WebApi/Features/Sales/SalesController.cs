@@ -13,11 +13,13 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.ListSales;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public class SalesController : BaseController
 {
@@ -62,7 +64,7 @@ public class SalesController : BaseController
 
         var response = await _mediator.Send(new GetSaleQuery(id), cancellationToken);
 
-        return Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale retrieved successfully",
@@ -77,7 +79,7 @@ public class SalesController : BaseController
         var query = _mapper.Map<ListSalesQuery>(request);
         var result = await _mediator.Send(query, cancellationToken);
 
-        return Ok(new PaginatedResponse<SaleListItemResponse>
+        return new OkObjectResult(new PaginatedResponse<SaleListItemResponse>
         {
             Success = true,
             Message = "Sales retrieved successfully",
@@ -102,7 +104,7 @@ public class SalesController : BaseController
 
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale updated successfully",
@@ -116,7 +118,7 @@ public class SalesController : BaseController
     {
         var response = await _mediator.Send(new CancelSaleCommand(id), cancellationToken);
 
-        return Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale cancelled successfully",
@@ -137,7 +139,7 @@ public class SalesController : BaseController
         var command = _mapper.Map<CancelSaleItemCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<SaleResponse>
+        return new OkObjectResult(new ApiResponseWithData<SaleResponse>
         {
             Success = true,
             Message = "Sale item cancelled successfully",

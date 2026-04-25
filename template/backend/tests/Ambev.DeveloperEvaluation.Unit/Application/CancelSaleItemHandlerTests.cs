@@ -39,7 +39,7 @@ public class CancelSaleItemHandlerTests
         var result = await handler.Handle(new CancelSaleItemCommand(sale.Id, itemId), CancellationToken.None);
 
         result.TotalAmount.Should().Be(10m);
-        await repository.Received(1).UpdateAsync(sale, null, Arg.Any<CancellationToken>());
+        await repository.Received(1).UpdateAsync(sale, Arg.Any<CancellationToken>());
         await mediator.Received().Publish(Arg.Any<INotification>(), Arg.Any<CancellationToken>());
     }
 }

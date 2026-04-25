@@ -9,12 +9,8 @@ public class SalesProfile : Profile
     {
         CreateMap<SaleItem, SaleItemResult>();
 
-        CreateMap<Sale, SaleResult>()
-            .ForMember(dest => dest.Version,
-                opt => opt.MapFrom(src => src.Version));
+        CreateMap<Sale, SaleResult>();
 
-        CreateMap<Sale, SaleListItemResult>()
-            .ForMember(dest => dest.Version,
-                opt => opt.MapFrom(src => src.Version));
+        CreateMap<Sale, SaleListItemResult>();
     }
 }

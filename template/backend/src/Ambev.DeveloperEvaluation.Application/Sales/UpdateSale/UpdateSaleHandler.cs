@@ -47,7 +47,7 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, SaleResult>
 
         sale.ClearDomainEvents();
 
-        await _saleRepository.UpdateAsync(sale, request.Version, cancellationToken);
+        await _saleRepository.UpdateAsync(sale, cancellationToken);
         return _mapper.Map<SaleResult>(sale);
     }
 }

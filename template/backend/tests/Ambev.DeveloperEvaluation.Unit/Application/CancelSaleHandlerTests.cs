@@ -35,6 +35,6 @@ public class CancelSaleHandlerTests
         var result = await handler.Handle(new CancelSaleCommand(sale.Id), CancellationToken.None);
 
         result.IsCancelled.Should().BeTrue();
-        await repository.Received(1).UpdateAsync(sale, null, Arg.Any<CancellationToken>());
+        await repository.Received(1).UpdateAsync(sale, Arg.Any<CancellationToken>());
     }
 }

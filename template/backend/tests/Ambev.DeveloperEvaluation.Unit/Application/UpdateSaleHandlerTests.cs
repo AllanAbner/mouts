@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application;
 public class UpdateSaleHandlerTests
 {
     [Fact]
-    public async Task Handle_WithValidCommand_UpdatesSaleAndPersistsExpectedVersion()
+    public async Task Handle_WithValidCommand_UpdatesSale()
     {
         var repository = Substitute.For<ISaleRepository>();
         var mediator = Substitute.For<IMediator>();
@@ -40,7 +40,6 @@ public class UpdateSaleHandlerTests
             CustomerName = "Updated Customer",
             BranchExternalId = Guid.NewGuid(),
             BranchName = "Updated Branch",
-            Version = 7,
             Items =
             [
                 new SaleItemInput
@@ -60,7 +59,7 @@ public class UpdateSaleHandlerTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         result.SaleNumber.Should().Be("SALE-002");
-        await repository.Received(1).UpdateAsync(sale, 7, Arg.Any<CancellationToken>());
+        await repository.Received(1).UpdateAsync(sale, Arg.Any<CancellationToken>());
         await mediator.Received().Publish(Arg.Any<INotification>(), Arg.Any<CancellationToken>());
     }
 
@@ -75,13 +74,12 @@ public class UpdateSaleHandlerTests
         var command = new UpdateSaleCommand
         {
             Id = Guid.NewGuid(),
-            Version = 0,
             Items = []
         };
 
         var act = () => handler.Handle(command, CancellationToken.None);
 
         await act.Should().ThrowAsync<ValidationException>();
-        await repository.DidNotReceive().UpdateAsync(Arg.Any<Sale>(), Arg.Any<uint?>(), Arg.Any<CancellationToken>());
+        await repository.DidNotReceive().UpdateAsync(Arg.Any<Sale>(), Arg.Any<CancellationToken>());
     }
 }
