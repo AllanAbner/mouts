@@ -54,6 +54,11 @@ public class CreateUserHandlerTests
         var result = new CreateUserResult
         {
             Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Phone = user.Phone,
+            Role = user.Role,
+            Status = user.Status
         };
 
 

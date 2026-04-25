@@ -31,7 +31,7 @@ If you write the code, **it's not required** to actually publish to any Message 
 
 ### Business Rules
 
-* Purchases above 4 identical items have a 10% discount
+* Purchases from 4 to 9 identical items have a 10% discount
 * Purchases between 10 and 20 identical items have a 20% discount
 * It's not possible to sell above 20 identical items
 * Purchases below 4 items cannot have a discount
@@ -45,6 +45,32 @@ These business rules define quantity-based discounting tiers and limitations:
 2. Restrictions:
    - Maximum limit: 20 items per product
    - No discounts allowed for quantities below 4 items
+
+## Implemented Scope
+The template now includes a first implementation of the sales API on top of the existing layered backend.
+
+Implemented backend scope:
+- Sales aggregate with items and discount rules
+- Sales CRUD-style flow with logical cancellation
+- Pagination and ordering for sales listing
+- PostgreSQL persistence through EF Core mappings
+- Stable aggregate updates without optimistic concurrency in the sales flow
+- Domain events implemented as MediatR notifications with structured logging handlers
+
+Main endpoints:
+- `POST /api/sales`
+- `GET /api/sales`
+- `GET /api/sales/{id}`
+- `PUT /api/sales/{id}`
+- `DELETE /api/sales/{id}`
+- `PATCH /api/sales/{saleId}/items/{itemId}/cancel`
+
+Business behavior:
+- 4 to 9 identical items: 10% discount
+- 10 to 20 identical items: 20% discount
+- More than 20 identical items: rejected
+- Cancelled items do not participate in the total
+- Cancelled sales cannot be updated
 
 ## Overview
 This section provides a high-level overview of the project and the various skills and competencies it aims to assess for developer candidates. 
