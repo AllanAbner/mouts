@@ -9,7 +9,6 @@ public class UpdateSaleRequestValidator : AbstractValidator<UpdateSaleRequest>
         RuleFor(x => x.SaleNumber).NotEmpty();
         RuleFor(x => x.CustomerExternalId).NotEmpty();
         RuleFor(x => x.BranchExternalId).NotEmpty();
-        RuleFor(x => x.Version).GreaterThan(0u);
         RuleFor(x => x.Items).NotEmpty();
     }
 }

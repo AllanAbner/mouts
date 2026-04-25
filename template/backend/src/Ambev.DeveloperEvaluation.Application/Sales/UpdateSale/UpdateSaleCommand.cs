@@ -12,6 +12,5 @@ public class UpdateSaleCommand : IRequest<SaleResult>
     public string CustomerName { get; set; } = string.Empty;
     public Guid BranchExternalId { get; set; }
     public string BranchName { get; set; } = string.Empty;
-    public uint Version { get; set; }
     public List<SaleItemInput> Items { get; set; } = [];
 }

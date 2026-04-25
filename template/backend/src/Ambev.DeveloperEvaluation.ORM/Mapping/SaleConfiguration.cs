@@ -22,12 +22,11 @@ public class SaleConfiguration : IEntityTypeConfiguration<Sale>
         builder.Property(x => x.IsCancelled).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt);
-        builder.Property(x => x.Version)
-            .HasColumnName("xmin")
-            .HasColumnType("xid")
-            .IsRowVersion();
-
         builder.HasIndex(x => x.SaleNumber).IsUnique();
+        builder.HasIndex(x => x.SaleDate);
+        builder.HasIndex(x => x.CustomerExternalId);
+        builder.HasIndex(x => x.BranchExternalId);
+        builder.HasIndex(x => new { x.IsCancelled, x.SaleDate });
         builder.HasMany(x => x.Items)
        .WithOne()
        .HasForeignKey("SaleId")

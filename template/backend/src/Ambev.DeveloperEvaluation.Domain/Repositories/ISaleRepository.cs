@@ -18,5 +18,5 @@ public interface ISaleRepository
         Guid? branchId,
         bool? isCancelled,
         CancellationToken cancellationToken = default);
-    Task UpdateAsync(Sale sale, uint? expectedVersion, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 }

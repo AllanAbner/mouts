@@ -72,15 +72,36 @@ public class SaleRepository : ISaleRepository
         return new PaginatedResult<Sale>(items, page, size, totalCount);
     }
 
-    public async Task UpdateAsync(Sale sale, uint? expectedVersion, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
     {
-        if (_context.Entry(sale).State == EntityState.Detached)
+        var entry = _context.Entry(sale);
+        if (entry.State == EntityState.Detached)
+        {
             _context.Attach(sale);
+            entry = _context.Entry(sale);
+        }
 
-        _context.Entry(sale).State = EntityState.Modified;
+        var persistedItemIds = (await _context.Set<SaleItem>()
+            .Where(x => EF.Property<Guid>(x, "SaleId") == sale.Id)
+            .Select(x => x.Id)
+            .ToListAsync(cancellationToken))
+            .ToHashSet();
 
-        if (expectedVersion.HasValue)
-            _context.Entry(sale).Property(x => x.Version).OriginalValue = expectedVersion.Value;
+        foreach (var item in sale.Items)
+        {
+            var itemEntry = _context.Entry(item);
+
+            if (!persistedItemIds.Contains(item.Id))
+            {
+                itemEntry.State = EntityState.Added;
+                continue;
+            }
+
+            if (itemEntry.State == EntityState.Detached)
+            {
+                _context.Attach(item);
+            }
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
     }
